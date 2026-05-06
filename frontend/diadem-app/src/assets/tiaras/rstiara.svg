@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="300" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff9100"/>
+      <stop offset="100%" stop-color="#ff1744"/>
+    </linearGradient>
+
+    <radialGradient id="sapphire" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#4fc3f7"/>
+      <stop offset="100%" stop-color="#0d47a1"/>
+    </radialGradient>
+
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Темный фон -->
+  <rect width="100%" height="100%" fill="#1a001f"/>
+
+  <!-- Основа тиары -->
+  <path d="M100 300 Q400 100 700 300"
+        stroke="url(#gold)"
+        stroke-width="8"
+        fill="none"
+        filter="url(#glow)"/>
+
+  <!-- Арки -->
+  <path d="M200 300 Q300 180 400 300"
+        stroke="url(#gold)"
+        stroke-width="5"
+        fill="none"/>
+
+  <path d="M400 300 Q500 180 600 300"
+        stroke="url(#gold)"
+        stroke-width="5"
+        fill="none"/>
+
+  <!-- Сапфиры -->
+  <circle cx="300" cy="220" r="22" fill="url(#sapphire)" filter="url(#glow)"/>
+  <circle cx="400" cy="170" r="26" fill="url(#sapphire)" filter="url(#glow)"/>
+  <circle cx="500" cy="220" r="22" fill="url(#sapphire)" filter="url(#glow)"/>
+
+  <!-- Бриллианты -->
+  <polygon points="250,260 265,230 280,260 265,290" fill="#ffffff" opacity="0.9"/>
+  <polygon points="350,230 365,200 380,230 365,260" fill="#ffffff" opacity="0.9"/>
+  <polygon points="450,230 465,200 480,230 465,260" fill="#ffffff" opacity="0.9"/>
+  <polygon points="550,260 565,230 580,260 565,290" fill="#ffffff" opacity="0.9"/>
+
+</svg>
