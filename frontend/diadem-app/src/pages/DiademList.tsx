@@ -49,7 +49,7 @@ export default function DiademList() {
               <TableRow
                 key={d.id}
                 hover
-                onClick={() => navigate(`/tiara/${d.id}`)}
+                onClick={() => navigate(`/diadem/${d.id}`)}
                 sx={{
                   cursor: "pointer",
                   '&:hover': {
