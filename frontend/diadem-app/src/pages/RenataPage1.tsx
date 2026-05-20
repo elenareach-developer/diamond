@@ -22,7 +22,7 @@ export default function RenataPage1() {
 
     const data = await res.json();
 
-    const botMessage = { role: "assistant", text: data.text };
+    const botMessage = { role: "assistant", text: data.answer };
 
     setMessages((prev) => [...prev, botMessage]);
     setLoading(false);
