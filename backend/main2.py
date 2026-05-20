@@ -38,7 +38,7 @@ def chat(req: ChatRequest):
         "focus_point": point
     }
 
-API_KEY = "AIzaSyBYVvq-CIj9bNm-3Z3OHkBt1al4fretkYs"
+
 
 from google import genai
 
