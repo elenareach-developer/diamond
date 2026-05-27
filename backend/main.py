@@ -25,16 +25,18 @@ class ChatRequest(BaseModel):
 
 from google import genai
 
+API_KEY = "AIzaSyBYVvq-CIj9bNm-3Z3OHkBt1al4fretkYs"
 
 client = genai.Client(api_key=API_KEY)
 
-#LLM router
+
+#LLM transletor 
 def translate_query(query: str) -> str:
     prompt = f"""
        Все документы написамны в стиле дамочи и на русском языке
        переведи на русский язык в этом стиле
 
-        Question: {query}
+        {query}
 
         верни качественный перевод
         """
@@ -46,6 +48,8 @@ def translate_query(query: str) -> str:
 
     return (res.text or "").strip().lower()
 
+
+#LLM routeter
 def route_query(query: str) -> str:
     prompt = f"""
         You are a router for a knowledge system.
@@ -62,6 +66,7 @@ def route_query(query: str) -> str:
     res = client.models.generate_content(
         model="gemini-3-flash-preview",
         contents=prompt,
+       
     )
 
     return (res.text or "").strip().lower()
@@ -110,8 +115,7 @@ def search(
     """
     Semantic search using cosine similarity.
     """
-    # 0 translate querry in russian
-    query_translate = translate_query(query)
+
     # 1. embedding для запроса
     query_embedding = np.array(get_embedding(query))
 
@@ -137,7 +141,8 @@ def smartResponse(req: ChatRequest):
     question = req.message
 
     route = route_query(question)
-
+    # 0 translate querry in russian
+    query_translate = translate_query(question)
     if route == "royal":
         docs = royal_docs
         embeddings = royal_embeddings
@@ -145,7 +150,7 @@ def smartResponse(req: ChatRequest):
         docs = emerald_docs
         embeddings = emerald_embeddings
 
-    results = search(question, docs, embeddings, get_embedding, top_k=3)
+    results = search(query_translate, docs, embeddings, get_embedding, top_k=3)
 
     context = "\n\n".join([doc["text"] for _, doc in results])
 
