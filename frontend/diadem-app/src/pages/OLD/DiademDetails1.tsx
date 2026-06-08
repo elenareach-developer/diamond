@@ -2,15 +2,15 @@
 // src/pages/DiademDetails.tsx (ORNATE CARD)
 // =========================
 import { useState } from "react";
-import { tiaras} from "../data/diadems";
-import type { TiaraItem } from "../data/diadems";
-import { Tiara } from "../components/Tiaras";
+import { tiaras} from "../../data/diadems";
+import type { TiaraItem } from "../../data/diadems";
+import { Tiara } from "../../components/Tiaras";
 
 // =========================
 // src/pages/DiademDetails.tsx (ORNATE CARD)
 // =========================
 import { useParams } from "react-router-dom";
-import { tiaras as diadems } from "../data/diadems";
+import { tiaras as diadems } from "../../data/diadems";
 import {
   Card,
   CardContent,

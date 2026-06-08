@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { tiaras as diadems } from "../data/diadems";
-import { personas } from "../data/persona";
-import AgentResponse from "../components/AgentResponse";
-import CreateCharacterDialog from "../components/CreateCharacterDialog";
+import { tiaras as diadems } from "../../data/diadems";
 
 import {
   Card,
@@ -19,7 +16,6 @@ import {
 export function DiademDetails() {
   const { id } = useParams();
   const diadem = diadems.find((d) => d.id === id);
-  const [characters, setCharacters] = useState(personas);
 
   const [messages, setMessages] = useState<any[]>([]);
   const [input, setInput] = useState("");
@@ -38,24 +34,13 @@ export function DiademDetails() {
     const res = await fetch("http://localhost:8000/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        question: input
-      })
+      body: JSON.stringify({ message: input })
     });
 
     const data = await res.json();
 
-      setMessages(prev => [
-        ...prev,
-        {
-          role: "assistant",
-          agents: {
-            professor: data.professor,
-            student: data.student,
-            common_person: data.common_person
-          }
-        }
-      ]);
+    const botMsg = { role: "assistant", text: data.answer };
+    setMessages((prev) => [...prev, botMsg]);
 
     setLoading(false);
   };
@@ -102,79 +87,47 @@ export function DiademDetails() {
             {diadem.value}
           </Typography>
 
-          {/* ===== CHAT SECTION  = PERSONA===== */}
-          <Box sx={{ display: "flex", gap: 1, mb: 2, flexWrap: "wrap" }}>
-            {characters.map((c) => (
-              <Button
-                key={c.id}
-                size="small"
-                variant={c.enabled ? "contained" : "outlined"}
-                onClick={() =>
-                  setCharacters((prev) =>
-                    prev.map((x) =>
-                      x.id === c.id
-                        ? { ...x, enabled: !x.enabled }
-                        : x
-                    )
-                  )
-                }
-              >
-                {c.avatar} {c.name}
-              </Button>
-            ))}
-            <CreateCharacterDialog
-                onCharacterCreated={(character) =>
-                  setCharacters((prev) => [
-                    ...prev,
-                    character
-                  ])
-                }
-              />
-          </Box>
           {/* ===== CHAT SECTION ===== */}
-            <Box
-              sx={{
-                maxHeight: 500,
-                overflowY: "auto",
-                mb: 2
-              }}
-            >
-              {messages.map((m, i) => {
-                if (m.role === "user") {
-                  return (
-                    <Box
-                      key={i}
-                      sx={{
-                        textAlign: "right",
-                        mb: 2
-                      }}
-                    >
-                      <Box
-                        sx={{
-                          display: "inline-block",
-                          p: 1.5,
-                          borderRadius: 2,
-                          bgcolor: "#d1e7ff",
-                          color: "#000"
-                        }}
-                      >
-                        {m.text}
-                      </Box>
-                    </Box>
-                  );
-                }
+          <Box
+            sx={{
+              mt: 4,
+              padding: 2,
+              background: "rgba(0,0,0,0.3)",
+              borderRadius: 3,
+              border: "1px solid gold"
+            }}
+          >
+            <Typography sx={{ mb: 1, color: "#ffd700" }}>
+              💬 Дама Лата — проводник диадемы
+            </Typography>
 
-                return (
-                  <AgentResponse
-                    key={i}
-                    agents={m.agents}
-                  />
-                );
-              })}
+            <Box sx={{ maxHeight: 200, overflowY: "auto", mb: 2 }}>
+              {messages.map((m, i) => (
+                <Box
+                  key={i}
+                  sx={{
+                    textAlign: m.role === "user" ? "right" : "left",
+                    mb: 1
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "inline-block",
+                      padding: "8px 12px",
+                      borderRadius: 2,
+                      background:
+                        m.role === "user" ? "#d1e7ff" : "rgba(255,255,255,0.15)",
+                      color: m.role === "user" ? "#000" : "#fff"
+                    }}
+                  >
+                    {m.text}
+                  </Box>
+                </Box>
+              ))}
 
               {loading && (
-                <Typography sx={{ color: "#ffd700" }}>
-                  Герои обсуждают ответ...
+                <Typography sx={{ color: "#ffe082" }}>
+                  Дама Лата печатает...
                 </Typography>
               )}
             </Box>
@@ -207,6 +160,7 @@ export function DiademDetails() {
                 Send
               </Button>
             </Box>
+          </Box>
         </CardContent>
       </Card>
     </Container>

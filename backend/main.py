@@ -38,7 +38,7 @@ def translate_query(query: str) -> str:
 
         {query}
 
-        верни качественный перевод
+        верни качественный перевод и язык на котором был написан
         """
 
     res = client.models.generate_content(
@@ -139,6 +139,8 @@ def search(
 def smartResponse(req: ChatRequest):
 
     question = req.message
+    royal_embeddings
+  
 
     route = route_query(question)
     # 0 translate querry in russian

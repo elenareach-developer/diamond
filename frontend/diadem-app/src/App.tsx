@@ -7,7 +7,7 @@ import {DiademDetails} from "./pages/DiademDetails";
 import Navbar from "./components/Navbar";
 import { TiaraPage } from "./pages/TiaraPage";
 import RenataPage from "./pages/RenataPage";
-import RenataPage1 from "./pages/RenataPage1";
+import RenataPage1 from "./pages/OLD/RenataPage1";
 
 export default function App() {
   return (
